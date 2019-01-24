@@ -1,11 +1,13 @@
 ## CDA 4910 Projects
 
 
-### Group 1 (title of the project)
-(_Student 1_ and _Student 2_)
+### Soccer Analytics
+(George Dantzig)
 
-The main goal for this project is to ...
+The main goal for this project is to identify patterns in the top 10 
+European teams by analyzing freely available player data
 
 **Tools used**:
-- Tool 1 
-- Tool 2
+- [x] R
+- [x] Python
+- [ ] Tableau
