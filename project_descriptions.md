@@ -1,11 +1,10 @@
 ## CDA 4910 Projects
 
 
-### Group 1 (title of the project)
-(_Student 1_ and _Student 2_)
+### Group 1 (Prison Recidivism and avaliability of Specialists)
+(_Oliver Bennett_ and _Jordan Douglas_)
 
-The main goal for this project is to ...
 
 **Tools used**:
-- Tool 1 
-- Tool 2
+- Tabelau 
+- Excel
