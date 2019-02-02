@@ -1,50 +1,27 @@
-setwd("~/Twitter_Sentiment")
+setwd("~/Twitter_Sentiment/cda_4910_ideas")
 library(tidyverse)
 library(rtweet)
 library(lubridate)
-library(esquisse)
+library(NLP)
+library(tidytext)
+library(magrittr)
 
-
-create_token(app = "
-CAPSTONE2_Political_Sentiment",
-             consumer_key = consumer_key,
-             consumer_secret = consumer_secret,
-             access_token = access_token,
-             access_secret = access_secret)
-
-
-# Bernie Sanders ----------------------------------------------------------
-
-bern <- search_tweets("Bernie Sanders", type='recent', n = 10000, include_rts=FALSE)
-ts_plot(bern, "1 hour")
-
-
-# Donald Trump ------------------------------------------------------------
-
-
-trump <- search_tweets("Donald Trump", type='recent', n = 10000, include_rts=FALSE)
-ts_plot(trump, "1 hour")
-
-
-# Frequency of Posts ------------------------------------------------------
-
-freq <- get_timelines(c("BernieSanders","realDonaldTrump"), n = 10000)
-freq %>% filter(created_at > "2019-01-01") %>%  group_by(screen_name) %>% ts_plot("days") + geom_point()
+#Sourcing a seperate document to authenticate my API | Security
+source("api.r")
 
 
 
-# Get Trends --------------------------------------------------------------
+tweets <- search_tweets("realDonaldTrump", n = 100)
+tweets_text <- tweets %>% select(screen_name,text)
+tweets_text %<>% unnest_tokens(word, text) %>% anti_join(stop_words)
+tweets_text %>% count(word) %>% arrange(desc(n))
+tweets_text %<>% inner_join(get_sentiments("nrc"))
+tweets_text %>% count(sentiment) %>% arrange(desc(n))
 
-tampa <- get_trends("Tampa")
-tampa$tweet_volume <- as.integer(tampa$tweet_volume)
-
-tampa %>% filter(tweet_volume>4000) %>% ggplot() +
-  geom_col(aes(x = trend, y = tweet_volume)) +
-  coord_flip()+
-  theme_minimal()+
-  labs(title = "Top Trending Tweets from Tampa",
-       x = "Trends",
-               y = "Number of Tweets",
-               subtitle = "Based on volume of tweets")
-
+tweets <- search_tweets("AOC", n = 100)
+tweets_text <- tweets %>% select(screen_name,text)
+tweets_text %<>% unnest_tokens(word, text) %>% anti_join(stop_words)
+tweets_text %>% count(word) %>% arrange(desc(n))
+tweets_text %<>% inner_join(get_sentiments("nrc"))
+tweets_text %>% count(sentiment) %>% arrange(desc(n))
 
