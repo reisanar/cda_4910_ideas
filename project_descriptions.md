@@ -77,11 +77,39 @@ the data is based on a study from April 2012 by Onyper SV, Thacher PV,
 Gilbert JW, and Gradess SG.
 
 ## References:
-Merikanto, Ilona, et al. “Late Bedtimes Weaken School Performance and 
-Predispose Adolescents to Health Hazards.” ScienceDirect, Elsevier BV, 
+Hutcheon, Thomas G., et al. “The Impact of a Technology Ban on Students’ 
+Perceptions and Performance in Introduction to Psychology.” Shibboleth 
+Authentication Request, Jan. 2019, 
+journals-sagepub-com.flpoly-proxy.flvc.org/doi/pdf/10.1177/0098628318816141.
+
+Melton, Bridget & Bigham, Lauren & W Bland, Helen & Bird, Matthew & 
+Fairman, Ciaran. (2014). Health-related Behaviors and Technology Usage 
+among College Students. American journal of health behavior. 38. 510-8. 
+10.5993/AJHB.38.4.4. 
+
+Merikanto, Ilona, et al. “Late Bedtimes Weaken School Performance and
+Predispose Adolescents to Health Hazards.” ScienceDirect, Elsevier BV,
 2013,
 www.sciencedirect.com/science/article/pii/S1389945713002554.
-Önder, Ismail, et al. “Circadian Preferences, Sleep Quality and Sleep 
-Patterns, Personality, Academic Motivation and Academic Achievement of 
+
+Moore, Molly Suzanne. “Sleep, Alcohol, and Academic Performance in 
+Undergraduate Students.” Auburn, 4 Aug. 2018, 
+etd.auburn.edu/bitstream/handle/10415/6307/Moore%20Dissertation%20Final.pdf?sequence=2&isAllowed=y.
+
+Nguyen, Holly Alexandra. “Using Personality Traits and Chronotype for 
+Personalized Feedback in a Sleep Web App.” Worcester Polytechnic 
+Institute, Apr. 2018, 
+digitalcommons.wpi.edu/cgi/viewcontent.cgi?article=4245&context=mqp-all.
+
+Norbury, Ray, and Simon Evans. “Time to Think: Subjective Sleep Quality, 
+Trait Anxiety and University Start Time.” NeuroImage, Academic Press, 23 
+Nov. 2018, www.sciencedirect.com/science/article/pii/S0165178118315464.
+
+Taylor, Daniel J et al. “The role of sleep in predicting college 
+academic performance: is it a unique predictor?” Behavioral sleep 
+medicine vol. 11,3 (2013): 159-72.
+
+Önder, Ismail, et al. “Circadian Preferences, Sleep Quality and Sleep
+Patterns, Personality, Academic Motivation and Academic Achievement of
 University Students.” ScienceDirect, Elsevier BV, 2014,
 www.sciencedirect.com/science/article/pii/S1041608014000223.
