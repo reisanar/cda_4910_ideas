@@ -39,3 +39,7 @@ sentiment-analysis/.
 7. Microtext: Papers from the 2013 AAAI Spring Symposium.
 
 8. Silge, Julia, and David Robinson. Text Mining with R: a Tidy Approach. OReilly, 2017.
+
+### Primary Data Source
+
+“Docs - Twitter Developers.” Twitter, Twitter, developer.twitter.com/en/docs.html.
