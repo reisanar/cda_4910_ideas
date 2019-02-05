@@ -13,9 +13,17 @@ The main goal for this project is to Investigate links between the distance of a
 
 **References**
 -https://www.pewtrusts.org/-/media/assets/2017/10/sfh_prison_health_care_costs_and_quality_final.pdf
+
 -https://www.vera.org/projects/incarceration-trends
+
 -https://www.palmbeachpost.com/news/state--regional/lucrative-florida-prison-healthcare-contract-under-increasing-scrutiny/slh8FmmxdWpH7TnHyW5HFN/
--https://www.palmbeachpost.com/news/privatizing-prison-health-care-leaves-inmates-pain-sometimes-dying/hiJMRmNG9YhE9JFTxfnZaN/    -http://www.crj.org/news-article/new-report-shows-path-forward-floridas-overburdened-prison-system/
+
+-https://www.palmbeachpost.com/news/privatizing-prison-health-care-leaves-inmates-pain-sometimes-dying/hiJMRmNG9YhE9JFTxfnZaN/
+
+-http://www.crj.org/news-article/new-report-shows-path-forward-floridas-overburdened-prison-system/
+
 -http://www.dc.state.fl.us/pub/recidivism/RecidivismReport2018.pdf
+
 -http://www.countyhealthrankings.org/app/florida/2018/downloads
+
 
