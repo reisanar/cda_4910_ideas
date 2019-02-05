@@ -21,14 +21,21 @@ the overall impact it made.
 - [ ] Shiny.io
 
 # References
-Gentry, Jeff. n.d. “Package ‘twitteR’.” The Comprehensive R Archive Network. Comprehensive R Archive
-Network (CRAN). https://cran.r-project.org/web/packages/twitteR/.
-Joshi, Aditya, Pushpak Bhattacharyya, and Mark Carman. 2016. “Political Issue Extraction Model: A
-Novel Hierarchical Topic Model That Uses Tweets by Political and Non-Political Authors.” Proceedings
-of the 7th Workshop on Computational Approaches to Subjectivity, Sentiment and Social Media Analysis.
+1. Gentry, Jeff. n.d. “Package ‘twitteR’.” The Comprehensive R Archive Network. Comprehensive R Archive
+
+2. Network (CRAN). https://cran.r-project.org/web/packages/twitteR/.
+
+3. Joshi, Aditya, Pushpak Bhattacharyya, and Mark Carman. 2016. “Political Issue Extraction Model: A
+Novel Hierarchical Topic Model That Uses Tweets by Political and Non-Political Authors.” 
+
+4. Proceedings of the 7th Workshop on Computational Approaches to Subjectivity, Sentiment and Social Media Analysis.
 https://doi.org/10.18653/v1/w16-0415.
-Kinsley, Harrison. n.d. “Sentiment Analysis - What Is It?” Sentdex Analysis. http://sentdex.com/
+
+5. Kinsley, Harrison. n.d. “Sentiment Analysis - What Is It?” Sentdex Analysis. http://sentdex.com/
 sentiment-analysis/.
-Ringsquandl, Martin, and Dušan Petković. 2013. “Analyzing Political Sentiment on Twitter.” Analyzing
-Microtext: Papers from the 2013 AAAI Spring Symposium.
-Silge, Julia, and David Robinson. Text Mining with R: a Tidy Approach. OReilly, 2017.
+
+6. Ringsquandl, Martin, and Dušan Petković. 2013. “Analyzing Political Sentiment on Twitter.” Analyzing
+
+7. Microtext: Papers from the 2013 AAAI Spring Symposium.
+
+8. Silge, Julia, and David Robinson. Text Mining with R: a Tidy Approach. OReilly, 2017.
