@@ -46,8 +46,6 @@ library(mapdata)
 library(dendextend)
 library(forcats)
 library(ggrepel)
-library(bigquery)
-library(GSODR)
 options(geonamesUsername= "egrennanmengore2488", geonamesHost="api.geonames.org")
 ```
 
