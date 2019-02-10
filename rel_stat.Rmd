@@ -1,0 +1,180 @@
+---
+title: 'Relocation Stations'
+author: Erich Grennan-Mengore, Natalie Brum
+output:
+  html_notebook: default
+---
+###Introduction - Parts of this is subject to change later
+This project is based on Erich Grennan-Mengore's exploratory data analysis for the cost of living in 2018 project in Reinaldo Sanchez-Arias's buisness intelligence class during the Fall 2018 Semester. 
+
+// EDIT THIS
+
+In this exploratory Data Analysis, we are investigating the Cost of Living in 2018 dataset, which is composed of Cost of Living for cities around the world 2018. The question I wish to get an answer to, is how do you the determine the best Cities within the continental United States to live in based off its popularity and potential for making the most money? Like any young person I would like to go off to different city to live once I finish up my education. To do that requires a lot of research beforehand to avoid a disaster, such as moving somewhere and ending up homeless or living paycheck to paycheck. Not only that but determining the best cities for that can also determine other types of city sub-groups which could be useful for different age demographics such as parents and retirees who might not want to live a high-rise lifestyle like many my age. This Data Analysis is built on top of the Cost of Living Index by Numbeo.com. How they collected the data was through user inputs and manually collected data from authoritative sources, with this process going about twice per year and the use of many sets of filters to eliminate bad data. The variables being used in the data are all based of New York’s value (100) as a baseline and can be explained as follows:
+	
+*Cost of Living Index - is a relative indicator of consumer goods prices, including groceries, restaurants, transportation and utilities. This does not include accommodation expense such as rent of mortgage. This index is built based on the best guess of average expenses in a given city for a four-person family. The lower this value the better.*
+	
+*Rent Index – is an estimation of prices of renting apartments in that city compared to New York. The lower this value the better.*
+	
+*Groceries Index – is an estimation of grocery prices in the city compared to New York.*
+	
+*Restaurants Index – is a comparison for prices for meals and drinks in restaurants and bars compared to NYC. The lower this value the better.*
+
+*Cost of Living Plus Rent Index – is a combined estimation of the values that make up cost of Living Index and Rent Index. It is calculated by Numbeo as such:*
+
+    CostOfLivingPlusRent_City = ∑(Price_in_the_city*(cost_of_living_factor + rent_factor))
+	
+*Local Purchasing Power - shows relative purchasing power in buying goods and services in a given city for the average wage in that city. The higher this value the better. It is calculated by Numbeo as such:*
+	
+	LocalPurchasingPowerIndex =  (AverageDisposableSalary_City⁄CostOfLivingPlusRent_City)/(〖AverageDisposableSalary_(New York)⁄CostOfLivingPlusRent_(New York) )
+	
+
+*Average Disposable Salary – shows the Average Disposable salary that is being made in that city.This is calculated by performing a bit of algebra variables that make up the Local Purchasing Power Index formula, which is:*
+
+	AverageDisposableSalary_City=((LocalPurchasingPower*CostOfLivingPlusRent))/100
+  - Note: The value of Average Disposable Salary of New York was dropped due to it being an unknown constant, but not needed to   determine a sort for Average Disposable Salary. 
+	
+*Latitude- Self-explanatory, shows up lat in data.*
+*Longitude – Self-explanatory, shows up as lng in data.*
+
+###Exploratory Data Analysis - Parts of this is subject to change as well.
+Loading of All Libraries
+```{r}
+library(tidyverse)
+library(geonames)
+library(maps)
+library(mapdata)
+library(dendextend)
+library(forcats)
+library(ggrepel)
+library(bigquery)
+library(GSODR)
+options(geonamesUsername= "egrennanmengore2488", geonamesHost="api.geonames.org")
+```
+
+Here we start off by performing some data pre-processing and fetching data points need to help with visualizations of this data. A description of how all the pre-processing works will be described within the methods section of this document.
+```{r}
+col <- read.csv("https://raw.githubusercontent.com/reisanar/datasets/master/cost-of-living-2018.csv")
+usCol<- col %>% 
+  filter(grepl("United States", City)) %>%
+  separate(City, c("City","State"), sep = "[,]")
+usCol <- usCol %>% filter(City != "Honolulu" & City != "Anchorage")
+usCol$Avg.Disp.Sal.Index <- NA
+usCol$lat <- NA
+usCol$lng <- NA
+for(row in 1:nrow(usCol)){
+  x <- usCol[row, "Local.Purchasing.Power.Index"]
+  y <- usCol[row, "Cost.of.Living.Plus.Rent.Index"]
+  res <- (x*y)/100
+  usCol[row, "Avg.Disp.Sal.Index"] <- res
+}
+for(row in 1:nrow(usCol)){
+  x <- usCol[row, "City"]
+  y <- usCol[row, "State"]
+  res <- GNsearch(name = x, adminCode1 = y, country="US", maxRows = 1)
+  usCol[row, "lat"] <- res$lat
+  usCol[row, "lng"] <- res$lng
+}
+usCol$Avg.Disp.Sal.Index <- as.double(usCol$Avg.Disp.Sal.Index)
+usCol$lat <- as.double(usCol$lat)
+usCol$lng <- as.double(usCol$lng)
+usCol$State <- as.factor(usCol$State)
+usa <- map_data("state")
+```
+
+Once we have fetch our data and finished pre-processing we use the head fucntion to get a view of how all the data looks so far. 
+```{r}
+glimpse(usCol)
+```
+The results from the head function show that all our data has been extracted and processed with no errors.
+
+Next up, lets take a summary to see determine the range of our data and see what type of values we willbe working with.
+```{r}
+summary(usCol)
+```
+The summaries abouth show that many that maximum values for many of numerical values except Cost.Of.Living.Index surpass the base value of 100. Also we can see that Local Purchasing Powers range of data would put New Yorks Local Purchasing power rather low in terms of purchasing value. 
+
+
+## IGNORE EVERYTHING PAST THIS POINT FOR NOW ##
+
+
+Next lets view our correlation matrix to see help determine the relations between our variables.
+```{r}
+cor(usCol[,3:9])
+```
+From the correlation matrix above we can see that the Cost.Of.Living.Index correlates best with the Restuarnat.Price.Index and Groceries.Index, ignoring the Cost.Of.Living.Plus.Rent.Index, this goes in accordance with the variable descriptions. We most likely don't need to focus too much of using the Groceries.Index and Resturant.Index varaibles during our anaylsis, since they have such high correlatation with Cost.Of.Living.Index that also captures other things such as retails items. Also the Avg.Disp.Sal.Index seems to be the only value with the higest correlation to the Local.Purchasing.Power.Index which makes sense since it was derived from it, this applies to the other values that made that variable.
+
+Next, lets make a pairs plot to get an idea of how our variables pair with each other.
+```{r}
+pairs(usCol[3:9])
+```
+The expectations for how variables based of each other seems to be met. And looking at the plots it seems the best variables for making comparison plots include Cost.of.Living.Plus.Rent.Index, Local.Purchasing.Power.Index, and Avg.Disp.Sal.Index.
+
+
+Too find the type of cities that are best for making money and provide a popular lifestyle, it would most likely be best to use clustering to do this. We will use Hierachial Clustering since it works on smaller data sets and there are only about 130 observations.
+```{r}
+set.seed(20)
+d_usCol <- dist(usCol[, c("Cost.of.Living.Index", "Rent.Index", "Avg.Disp.Sal.Index")])
+hc_usCol <- hclust(d_usCol, method = "complete")
+m1 <- color_labels(as.dendrogram(hc_usCol))
+plot(set(m1, "labels_cex", 0.7))
+comp2 <- cutree(hc_usCol, 5)
+usCol$City.Category <- as.factor(comp2)
+```
+Above we first set a seed so that whenever run the code above we get the same results.The distance vector is then cut based of the distance of Cost.of.Living.Index, Rent.Index, and Avg.Dis.Sal.Index. These variables were choosen because they are used to make up two of our most important elements. Then we input the distance vector into Hclustering algorithm using the "complete" method. From the denrogram above I believe that it would probably best to cut 5 groups from the tree for use as factors with data.
+
+This graph graphs the Cost of Living Plus Rent and Local Purchasing Power Indexes based of the new categories.
+```{r}
+ggplot(data = usCol, mapping = aes(x = Cost.of.Living.Plus.Rent.Index, y = Local.Purchasing.Power.Index, color = City.Category)) + geom_point() + coord_flip() + geom_point()
+```
+
+Assuming that Cost Of Living represents popularity, we can gather from this that at some point there is a limit to Purchasing Power if a city is past a Cost.Of.Living.Plus.Rent.Index of around 70. This could mean that the "popularity"" could be influenced from the salary, but if you get to a point a "popularity" the higher the salary the more it's Local Purchasing Power is diminshed due Cost of Living and Rent going as a cost of that "popularity".
+
+This graph shows Cost of Living Plus Rent and Average Salary graphed against each other.
+```{r}
+ggplot(data = usCol, mapping = aes(x = Cost.of.Living.Plus.Rent.Index, y = Avg.Disp.Sal.Index, color = City.Category)) + geom_point() + coord_flip()
+```
+This graph shows some validity of the claim that Salary most likely influences of Cost of Living and Rent. The relationship between the two seem to be an exponential one, and past a certain point it cause the cost of Living to explose. The only part of the data doesn't fit this the yellow cluster which despire High.Popularity does not seem to have a matching higher salary.
+
+This graph shows the value of Cost.of.Living.Plus.Rent.Index being reordered by City Category, against the Local Purchasing Power.
+```{r}
+ggplot(data = usCol, mapping = aes(x = fct_reorder(City.Category, Cost.of.Living.Plus.Rent.Index), y = Local.Purchasing.Power.Index, color = City.Category)) + geom_point() + labs(x = "Category ordered by Cost of Living Plus Rent") + theme(axis.text.x = element_blank())
+```
+Here we see each categories range of Purchasing Power, and is ordered from lowest Popularity to highest. As we can see the categories that make for the Highest Purchasing Power are the Purple Dots and Green Dots. 
+
+### Methods
+To support the analysis of this data a few steps had to be performed which were all done within the intial data processing and transformation. First to obtain data for the conitnental USA, the data had to be filtered by grep to obtain all values within the USA as all cities were in one column. Once all values containing "United State" were obtained the colomn was split with the seperate command, and only city and state were seperated which allowed the implicit dropping of the United States part of the name as it was no longer needed. The seperated values for city and state were stored in their own respective values. Honolulu and Anchorage were dropped as they were not part of the continental United States. To obtain the Average Disposable Salary Index, a loop was used which applied the equation described in the introduction to each row of data and the results were placed in the respective column. Next was obtaining the latitude and longitude variables which relied on the "geonames" package which was an API for GeoNames.com that stored location information for cities around the world. The function provided by the API to search for City location data needed the information from the City and State variables for each city. A loop was used in conjunction with this function that ran for each row of the database and returned the first result for each rows Latitude and Longitude data which was stored in the respective row column. After both loops are run, variables are converted to the proper format to ensure no issues with analysis later on. The final step, downloads a map that is used to display cities in the results after Data Analysis has been performed.
+
+The official Hypothesis for this data based of the Research question is as follows gained from the exploratory data analysis is as follows:
+  H0 = Average Disposable Salary does not have any influence on the Cost of Living and Rent Index
+  Ha = Average Disposable Salary does have some influence on the Cost of Living and Rent Index
+Using a Linear Model we can confirm the validity of this Hypothesis below:
+```{r}
+lm1 <- lm(log(Cost.of.Living.Plus.Rent.Index) ~ Avg.Disp.Sal.Index, data = usCol)
+summary(lm1)
+```
+The above linear model does show that the above is true for about 44% of the variance found within the Cost.Of.Living.Plus.Rent.Index.
+In terms of how this related to finding the best city based off popularity and money making potential, this helps in determining how the groups for popularity and money making potentials could be, as shown above in the EDA.
+```{r}
+usCol <- mutate(usCol, City.Category = fct_recode(City.Category,
+                            "Highest Popularity,\nLow Cash Potential" = "1",
+                             "High Popularity,\nLow Cash Potential" = "2",
+                             "High Popularity,\nHigh Cash Potential" = "3",
+                             "Lowest-Low Popularity,\nLow-Avg Cash Potential" = "4",
+                             "Low-Avg Popularity,\nHighest Cash Potential" = "5"
+                             ))
+
+```
+## Results
+Below is the Loop that takes each category of cities and maps them based of thier latitude and longitude to the appropriate point on the map, this is the results of our clustering analysis. 
+Based on the maps below it is most likely that the Cities that fit or might fit my interest witll most likely be categoriy "High Popularity, High Cash Potential", since it provides the best grounds for Local Purchasing Power and are still relatively big cities that have a lot for someone of my age. It is also interesting to see that some of the really popular cities start having diminishing returns in terms of pay, which could be due to being too desirable raising rates of expenses. Either way these categorizations can be useful depending on the persons place in life and intentions in terms of cities they wish to live in. An example of how this can be useful is the "Low-Avg Popularty, High Cash Potential" category, as this could be the perfect category if I were older with a family looking to settle down. 
+
+```{r}
+for(i in levels(usCol$City.Category)){
+  s1 <- usCol %>% filter(City.Category == i)
+  p1 <- ggplot(data = s1, aes(x = lng, y = lat)) + labs(title = s1$City.Category) + geom_polygon(data = usa, aes(x = long, y = lat, group = group, fill = region), color = "white") + coord_fixed(1.3) + guides(fill=FALSE) + geom_point(size = 1) + scale_color_manual(values = c("black"))
+  print(p1 + geom_text_repel(aes(label = City) , size = 2.5))
+}
+```
+
+
+Although some insights were gainined into cities, I beleive more research should be done to make solid claims. Gathering of more types of data should be done as well, since salary did not full explain the cost of living even if it did explain a part of it.
