@@ -46,7 +46,12 @@ library(mapdata)
 library(dendextend)
 library(forcats)
 library(ggrepel)
+library(GSODR)
 options(geonamesUsername= "egrennanmengore2488", geonamesHost="api.geonames.org")
+```
+
+```{r}
+Weather_data <- get_GSOD(2018, country = "United States")
 ```
 
 Here we start off by performing some data pre-processing and fetching data points need to help with visualizations of this data. A description of how all the pre-processing works will be described within the methods section of this document.
