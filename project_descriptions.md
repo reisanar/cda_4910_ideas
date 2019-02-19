@@ -1,11 +1,9 @@
-# Group: Luke Rhon, Marc Burstein, and Kenneth Williams (Rhon et al.)
-
 
 # Erich Grennan-Mengore & Natalie Brum: Relocation Station
 
 
 
-### *Intruduction*
+### *Introduction*
 
  
 Our project idea is to help newly graduated Data Science major to find the best match of city to live in based on the criteria of Cost Of Living, Weather, and Climate.
@@ -79,7 +77,9 @@ s
 * https://rpubs.com/yujingma45/149705
 
 * https://dashee87.github.io/data%20science/data-scientists-vs-data-analysts-part-1/
-=======
+
+# Luke Rhon, Marc Burstein, and Kenneth Williams (Rhon et al.): Sleep Study Model
+
 ## Introduction  (Rhon et al.)
 For the project we will be using a dataset focusing on sleep patterns of 
 college students. The dataset has variables that tracked students’ 
