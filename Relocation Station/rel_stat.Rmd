@@ -50,9 +50,115 @@ library(GSODR)
 options(geonamesUsername= "egrennanmengore2488", geonamesHost="api.geonames.org")
 ```
 
-```{r}
-Weather_data <- get_GSOD(2018, country = "United States")
+The distance for nearest stations is set to 40KM which is equal to around 50miles
+```{r echo=FALSE, message=FALSE}
+wxForCityByYr <- function(latitude, longitude, year){
+  station <- nearest_stations(latitude, longitude, 40)
+  isGT365 <- FALSE
+  count <- 0
+  while (isGT365 == FALSE){
+    count <- count + 1
+      res <- suppressWarnings(get_GSOD(years = year, station = station[[count]]))
+    if(nrow(res) >= 365){
+      isGT365 <- TRUE
+      return(res)
+    }
+  }
+}
 ```
+
+```{r}
+testData <- wxForCityByYr(37.77493, -122.41942, 2015)
+x<- testData %>% filter(YEARMODA >= "2015-01-01" & YEARMODA <= "2015-02-28") %>% select(TEMP)
+str(testData)
+head(x)
+```
+
+```{r echo=FALSE, message=FALSE}
+
+```
+
+```{r echo=FALSE, message=FALSE}
+winter <- vector("double", length = 4)
+spring <- vector("double", length = 4)
+summer <- vector("double", length = 4)
+fall <- vector("double", length = 4)
+for(row in 1:nrow(usCol)){
+  lat <- usCol[row, "lat"]
+  lng <- usCol[row, "lng"]
+  res <- wxForCityByYr(lat, lng, 2015)
+  for(i in 1:4){
+    if (i==1){
+      winter <- res %>% filter((YEARMODA >= "2014-12-01" & YEARMODA <= "2015-02-28") %>% select(TEMP))
+      winter[i] <- mean(winter$TEMP)
+    }
+    if (i==2){
+      winter <- res %>% filter((YEARMODA >= "2015-12-01" & YEARMODA <= "2016-02-28") %>% select(TEMP))
+      winter[i]<- mean(winter$TEMP)
+    }
+    if (i==3){
+      winter <- res %>% filter((YEARMODA >= "2016-12-01" & YEARMODA <= "2017-02-28") %>% select(TEMP))
+      winter[i] <- mean(winter$TEMP)
+    }
+    if (i==4){
+      winter <- res %>% filter((YEARMODA >= "2017-12-01" & YEARMODA <= "2018-02-28") %>% select(TEMP))
+      winter[i] <- mean(winter$TEMP)
+    }
+  }
+  winter2015 <- res %>% filter(YEARMODA >= "2014-12-01" & YEARMODA <= "2015-02-28") %>% select(TEMP)
+  usCol[row, "Winter.Mean"] <- mean(winter2015$TEMP)
+  spring2015 <- res %>% filter(YEARMODA >= "2015-03-01" & YEARMODA <= "2015-05-31") %>% select(TEMP)
+  usCol[row, "Spring.Mean"] <- mean(spring2015$TEMP)
+  summer2015 <- res %>% filter(YEARMODA >= "2015-06-01" & YEARMODA <= "2015-08-31") %>% select(TEMP)
+  usCol[row, "Summer.Mean"] <- mean(summer2015$TEMP)
+  fall2015 <- res %>% filter(YEARMODA >= "2015-09-01" & YEARMODA <= "2015-11-30") %>% select(TEMP)
+  usCol[row, "Fall.Mean"] <- mean(fall2015$TEMP)
+}
+```
+```{r}
+dataList <- vector("double", length = 4)
+dataList[1] <- 2.6
+dataList[2] <- 4.5
+dataList[3] <- 3.5
+dataList[4] <- 1.2
+for(i in 1:4){
+    if (i==1){
+      winter_res <- res %>% filter((YEARMODA >= "2014-12-01" & YEARMODA <= "2015-02-28") %>% select(TEMP))
+      winter[i] <- mean(winter$TEMP)
+    }
+    if (i==2){
+      winter_res <- res %>% filter((YEARMODA >= "2015-12-01" & YEARMODA <= "2016-02-28") %>% select(TEMP))
+      winter[i]<- mean(winter$TEMP)
+    }
+    if (i==3){
+      winter_res <- res %>% filter((YEARMODA >= "2016-12-01" & YEARMODA <= "2017-02-28") %>% select(TEMP))
+      winter[i] <- mean(winter$TEMP)
+    }
+    if (i==4){
+      winter_res <- res %>% filter((YEARMODA >= "2017-12-01" & YEARMODA <= "2018-02-28") %>% select(TEMP))
+      winter[i] <- mean(winter$TEMP)
+    }
+  }
+head(dataList)
+mean(dataList)
+```
+
+```{r}
+head(usCol)
+```
+
+```{r}
+dataList = list()
+for (year in 2015:2018) {
+  x <- get_GSOD(year, country = "United States" )
+  data <- x %>% select(c(6,8:11,15:17,19,21,29,33,35,37,39:45,48))
+  data <- data.frame(data)
+  dataList[[year - 2014]] <- data
+}
+gsod08_18 <- bind_rows(dataList)
+```
+
+
 
 Here we start off by performing some data pre-processing and fetching data points need to help with visualizations of this data. A description of how all the pre-processing works will be described within the methods section of this document.
 ```{r}
@@ -82,38 +188,18 @@ usCol$lat <- as.double(usCol$lat)
 usCol$lng <- as.double(usCol$lng)
 usCol$State <- as.factor(usCol$State)
 usa <- map_data("state")
+rm(col, res, x, y, row)
 ```
 
-Once we have fetch our data and finished pre-processing we use the head fucntion to get a view of how all the data looks so far. 
 ```{r}
-glimpse(usCol)
+write_csv(usCol, "usCol.csv")
 ```
-The results from the head function show that all our data has been extracted and processed with no errors.
 
-Next up, lets take a summary to see determine the range of our data and see what type of values we willbe working with.
 ```{r}
-summary(usCol)
+usCol <- read.csv("usCol.csv")
 ```
-The summaries abouth show that many that maximum values for many of numerical values except Cost.Of.Living.Index surpass the base value of 100. Also we can see that Local Purchasing Powers range of data would put New Yorks Local Purchasing power rather low in terms of purchasing value. 
 
 
-## IGNORE EVERYTHING PAST THIS POINT FOR NOW ##
-
-
-Next lets view our correlation matrix to see help determine the relations between our variables.
-```{r}
-cor(usCol[,3:9])
-```
-From the correlation matrix above we can see that the Cost.Of.Living.Index correlates best with the Restuarnat.Price.Index and Groceries.Index, ignoring the Cost.Of.Living.Plus.Rent.Index, this goes in accordance with the variable descriptions. We most likely don't need to focus too much of using the Groceries.Index and Resturant.Index varaibles during our anaylsis, since they have such high correlatation with Cost.Of.Living.Index that also captures other things such as retails items. Also the Avg.Disp.Sal.Index seems to be the only value with the higest correlation to the Local.Purchasing.Power.Index which makes sense since it was derived from it, this applies to the other values that made that variable.
-
-Next, lets make a pairs plot to get an idea of how our variables pair with each other.
-```{r}
-pairs(usCol[3:9])
-```
-The expectations for how variables based of each other seems to be met. And looking at the plots it seems the best variables for making comparison plots include Cost.of.Living.Plus.Rent.Index, Local.Purchasing.Power.Index, and Avg.Disp.Sal.Index.
-
-
-Too find the type of cities that are best for making money and provide a popular lifestyle, it would most likely be best to use clustering to do this. We will use Hierachial Clustering since it works on smaller data sets and there are only about 130 observations.
 ```{r}
 set.seed(20)
 d_usCol <- dist(usCol[, c("Cost.of.Living.Index", "Rent.Index", "Avg.Disp.Sal.Index")])
@@ -125,38 +211,6 @@ usCol$City.Category <- as.factor(comp2)
 ```
 Above we first set a seed so that whenever run the code above we get the same results.The distance vector is then cut based of the distance of Cost.of.Living.Index, Rent.Index, and Avg.Dis.Sal.Index. These variables were choosen because they are used to make up two of our most important elements. Then we input the distance vector into Hclustering algorithm using the "complete" method. From the denrogram above I believe that it would probably best to cut 5 groups from the tree for use as factors with data.
 
-This graph graphs the Cost of Living Plus Rent and Local Purchasing Power Indexes based of the new categories.
-```{r}
-ggplot(data = usCol, mapping = aes(x = Cost.of.Living.Plus.Rent.Index, y = Local.Purchasing.Power.Index, color = City.Category)) + geom_point() + coord_flip() + geom_point()
-```
-
-Assuming that Cost Of Living represents popularity, we can gather from this that at some point there is a limit to Purchasing Power if a city is past a Cost.Of.Living.Plus.Rent.Index of around 70. This could mean that the "popularity"" could be influenced from the salary, but if you get to a point a "popularity" the higher the salary the more it's Local Purchasing Power is diminshed due Cost of Living and Rent going as a cost of that "popularity".
-
-This graph shows Cost of Living Plus Rent and Average Salary graphed against each other.
-```{r}
-ggplot(data = usCol, mapping = aes(x = Cost.of.Living.Plus.Rent.Index, y = Avg.Disp.Sal.Index, color = City.Category)) + geom_point() + coord_flip()
-```
-This graph shows some validity of the claim that Salary most likely influences of Cost of Living and Rent. The relationship between the two seem to be an exponential one, and past a certain point it cause the cost of Living to explose. The only part of the data doesn't fit this the yellow cluster which despire High.Popularity does not seem to have a matching higher salary.
-
-This graph shows the value of Cost.of.Living.Plus.Rent.Index being reordered by City Category, against the Local Purchasing Power.
-```{r}
-ggplot(data = usCol, mapping = aes(x = fct_reorder(City.Category, Cost.of.Living.Plus.Rent.Index), y = Local.Purchasing.Power.Index, color = City.Category)) + geom_point() + labs(x = "Category ordered by Cost of Living Plus Rent") + theme(axis.text.x = element_blank())
-```
-Here we see each categories range of Purchasing Power, and is ordered from lowest Popularity to highest. As we can see the categories that make for the Highest Purchasing Power are the Purple Dots and Green Dots. 
-
-### Methods
-To support the analysis of this data a few steps had to be performed which were all done within the intial data processing and transformation. First to obtain data for the conitnental USA, the data had to be filtered by grep to obtain all values within the USA as all cities were in one column. Once all values containing "United State" were obtained the colomn was split with the seperate command, and only city and state were seperated which allowed the implicit dropping of the United States part of the name as it was no longer needed. The seperated values for city and state were stored in their own respective values. Honolulu and Anchorage were dropped as they were not part of the continental United States. To obtain the Average Disposable Salary Index, a loop was used which applied the equation described in the introduction to each row of data and the results were placed in the respective column. Next was obtaining the latitude and longitude variables which relied on the "geonames" package which was an API for GeoNames.com that stored location information for cities around the world. The function provided by the API to search for City location data needed the information from the City and State variables for each city. A loop was used in conjunction with this function that ran for each row of the database and returned the first result for each rows Latitude and Longitude data which was stored in the respective row column. After both loops are run, variables are converted to the proper format to ensure no issues with analysis later on. The final step, downloads a map that is used to display cities in the results after Data Analysis has been performed.
-
-The official Hypothesis for this data based of the Research question is as follows gained from the exploratory data analysis is as follows:
-  H0 = Average Disposable Salary does not have any influence on the Cost of Living and Rent Index
-  Ha = Average Disposable Salary does have some influence on the Cost of Living and Rent Index
-Using a Linear Model we can confirm the validity of this Hypothesis below:
-```{r}
-lm1 <- lm(log(Cost.of.Living.Plus.Rent.Index) ~ Avg.Disp.Sal.Index, data = usCol)
-summary(lm1)
-```
-The above linear model does show that the above is true for about 44% of the variance found within the Cost.Of.Living.Plus.Rent.Index.
-In terms of how this related to finding the best city based off popularity and money making potential, this helps in determining how the groups for popularity and money making potentials could be, as shown above in the EDA.
 ```{r}
 usCol <- mutate(usCol, City.Category = fct_recode(City.Category,
                             "Highest Popularity,\nLow Cash Potential" = "1",
