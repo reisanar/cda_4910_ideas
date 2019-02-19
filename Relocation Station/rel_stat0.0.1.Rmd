@@ -1,0 +1,30 @@
+---
+title: "rel_stat0.0.1"
+author: "Erich Grennan-Mengore & Natalie Brum"
+date: "2/19/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+This is Relocation Station which is based of an EDA of Cost Of Living Index that was a final project for Reinaldo Sanchez's Buisness Intelligence class in Fall 2018.
+```{r}
+library(tidyverse)
+library(geonames)
+library(maps)
+library(mapdata)
+library(dendextend)
+library(forcats)
+library(ggrepel)
+library(GSODR)
+options(geonamesUsername= "egrennanmengore2488", geonamesHost="api.geonames.org")
+```
+Loading of Data Soruces
+```{r}
+usCol <- read.csv("usCol.csv")
+rpp <- read.csv("regional_price_parity_2016.csv")
+```
+
