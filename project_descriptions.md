@@ -55,8 +55,6 @@ The problem we are trying to solve is how does a college graduate determine the 
 ### *Data sources*
 * https://raw.githubusercontent.com/reisanar/datasets/master/cost-of-living-2018.csv - Cost of Living Data for 2018 obtained by Professor Sanchez-Arias from numbeo.com, which was placed on github.
 
-* https://www.foreignlaborcert.doleta.gov/performancedata.cfm - Data from department of labor on permenant foreign residents within the United State. Since foreign workers are required to post their actual pay it helps gauge the actual types of salaries companies are giving, instead of survey data from places like Glassdoor.
-
 * https://apps.bea.gov/iTable/iTable.cfm?reqid=70&step=1&isuri=1&acrdn=8#reqid=70&step=1&isuri=1 - Regional price parity in 2016 compiled by the BEA
 
 * https://www.thereadystore.com/natural-disasters-map# - Natural Disaster Locations
