@@ -76,9 +76,9 @@ s
 
 * https://dashee87.github.io/data%20science/data-scientists-vs-data-analysts-part-1/
 
-# Luke Rhon, Marc Burstein, and Kenneth Williams (Rhon et al.): Sleep Study Model
+# Luke Rhon, Marc Burstein, and Kenneth Williams: Sleep Study Model
 
-## Introduction  (Rhon et al.)
+## Introduction  
 For the project we will be using a dataset focusing on sleep patterns of 
 college students. The dataset has variables that tracked students’ 
 academic performance, sleep schedule, cognitive function, and
@@ -90,7 +90,7 @@ college students. In their findings they concluded that later class
 start times, although allowed for more sleep, had a negative effect
 on student’s academic success and attitude.
 
-## Description of the problem  (Rhon et al.)
+## Description of the problem  
 Different students in any specific class will gain different grades. 
 Most of the grades apply to studying and how well each student can 
 comprehend and handle different lessons in the class.
@@ -102,7 +102,7 @@ in specific classes overtime. We’ll be comparing their sleep patterns,
 schedules, and times with what time of day the class starts
 to determine the types of grades a student gets in each specific class.
 
-## Goals/Objectives  (Rhon et al.)
+## Goals/Objectives  
 The main goal of this project is to build a predictive model that 
 predicts student sleep behavior or performance based on input values. 
 Using the findings from the 2012 study we can test those results
@@ -110,7 +110,7 @@ by creating a model. Once the model is built and accurate, we can
 incorporate it into an interactive shiny app. Then anyone interested can 
 see the results of their input.
 
-## Notes on Research Questions  (Rhon et al.)
+## Notes on Research Questions 
 1. What effect does sleep have on the performance of students?
 
 
@@ -121,7 +121,7 @@ and mental health?
 3. Build a predictive model base on results in 2012 study that receives 
 input to predict sleep behavior.
 
-## A preliminary timeline  (Rhon et al.)
+## A preliminary timeline  
 
 Week 2 - 3
 Research problem and perform data cleaning
@@ -144,15 +144,15 @@ Implement shiny app to interact with model
 Week 14 - 16
 Write report and improve model
 
-## Technology Tools  (Rhon et al.)
+## Technology Tools  
 For this project we will be using R and Python.
 
-## Data Sources  (Rhon et al.)
+## Data Sources  
 The data is taken from Dr. Reinaldo Sanchez-Arias’ GitHub. The source of 
 the data is based on a study from April 2012 by Onyper SV, Thacher PV, 
 Gilbert JW, and Gradess SG.
 
-## References  (Rhon et al.)
+## References  
 Hutcheon, Thomas G., et al. “The Impact of a Technology Ban on Students’ 
 Perceptions and Performance in Introduction to Psychology.” Shibboleth 
 Authentication Request, Jan. 2019, 
@@ -193,7 +193,7 @@ www.sciencedirect.com/science/article/pii/S1041608014000223.
 
 
 
-# (Kahlil Wehmeyer) Political Sentiment Web App
+# Kahlil Wehmeyer: Political Sentiment Web App
 
 
 The purpose of this project will be to create a somewhat flexible web app the can gauge the sentiment
@@ -212,7 +212,7 @@ the overall impact it made.
 - [x] Shiny
 - [ ] Shiny.io
 
-# References
+## References
 1. Gentry, Jeff. n.d. “Package ‘twitteR’.” The Comprehensive R Archive Network. Comprehensive R Archive
 
 2. Network (CRAN). https://cran.r-project.org/web/packages/twitteR/.
@@ -232,7 +232,7 @@ sentiment-analysis/.
 
 8. Silge, Julia, and David Robinson. Text Mining with R: a Tidy Approach. OReilly, 2017.
 
-### Primary Data Source
+## Primary Data Source
 
 “Docs - Twitter Developers.” Twitter, Twitter, developer.twitter.com/en/docs.html.
 
@@ -248,7 +248,7 @@ As a team, we aim to use the meaningful information gathered to better understan
 - Tableau 
 - Excel
 
-### References: 
+## References: 
 
 Articles:
 Health Care Contracts Under Scrutiny:
@@ -259,7 +259,7 @@ Overburdened Prison Systems in Florida
 http://www.crj.org/news-article/new-report-shows-path-forward-floridas-overburdened-prison-system/
 
 
-### Data Sources:
+## Data Sources:
 
 List of Florida Institutions
 http://www.dc.state.fl.us/ci/index.html
