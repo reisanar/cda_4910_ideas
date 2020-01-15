@@ -1,5 +1,5 @@
 
-# Erich Grennan-Mengore & Natalie Brum: Relocation Station
+# Erich Mengore & Natalie Brum: Relocation Station
 
 ### *Introduction*
 
